@@ -70,7 +70,9 @@ function page() {
         const formData = new FormData();
 
         formData.append('car_model', carModel);
-        formData.append('price', price);
+        if (price !== undefined) {
+            formData.append('price', price.toString()); // Convert number to string
+        }
         formData.append('phone_number', phoneNumber);
         images.forEach((image: any) => {
             formData.append('images', image);
@@ -126,7 +128,7 @@ function page() {
                 <h2>Car Information</h2>
                 <InputComponent label={'Model'} type="text" value={carModel} name="carModel" onChange={e => setCarModel(e.target.value)} />
                 <InputComponent label={'Price'} type="number" value={price} name="price" onChange={e => setPrice(parseInt(e.target.value))} />
-                <InputComponent label={'Phone'} type="number" value={phoneNumber} name="phoneNumber" onChange={e => setPhoneNumber(parseInt(e.target.value))} />
+                <InputComponent label={'Phone'} type="number" value={phoneNumber} name="phoneNumber" onChange={e => setPhoneNumber(e.target.value)} />
 
                 <div>
                     <label>Upload Photos</label>
