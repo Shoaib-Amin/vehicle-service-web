@@ -1,0 +1,52 @@
+.container {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10;
+}
+
+.layout-container {
+    padding: 10;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    gap: 10;
+}
+
+.image-container {
+    position: relative;
+    margin: 10px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.preview-image {
+    width: 150px;
+    border-radius: 8px;
+    display: block;
+}
+
+.remove-icon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.images-container {
+}
+
+.image-container:hover .remove-icon {
+    opacity: 1;
+}
