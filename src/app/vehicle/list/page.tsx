@@ -15,7 +15,6 @@ function VehicleListPage() {
         severity: "success"
     })
     const [loading, setLoading] = useState<boolean>(false); // Loading state
-    const [noData, setNoData] = useState<boolean>(false); // No data state
 
     useEffect(() => {
         fetchData()
@@ -28,7 +27,6 @@ function VehicleListPage() {
             const response = await axiosInstance.get('/vehicle')
             if (response.data) {
                 setVehicles(response.data.data)
-                setNoData(response.data.data.length === 0); // Check if there's no data
             }
         } catch (error: any) {
             showAlert(error?.response?.data?.message || error.message, 'error')
