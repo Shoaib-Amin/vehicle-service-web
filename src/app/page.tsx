@@ -35,7 +35,7 @@ export default function Home() {
         },
         body: JSON.stringify(requestBody),
       });
-      console.log(response, 'response')
+
       if (response.ok) {
 
         window.location.href = '/vehicle'; // Redirect to a protected route
