@@ -15,3 +15,10 @@
   align-items: center;
   height: 100vh;
 }
+
+.loginRed{
+  color: red;
+}
+.login-green {
+  color: green
+}

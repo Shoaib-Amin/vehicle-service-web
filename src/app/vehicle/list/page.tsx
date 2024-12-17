@@ -1,6 +1,6 @@
 'use client'
-import React, { useEffect, useState } from 'react'
 import styles from "./page.module.css";
+import React, { useEffect, useState } from 'react'
 import axiosInstance from '@/utils/axios';
 import { AlertState, Vehicle } from '@/types';
 import { AlertColor } from '@mui/material';

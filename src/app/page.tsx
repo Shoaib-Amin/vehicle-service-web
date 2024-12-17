@@ -71,6 +71,8 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
+      <h2 className={styles.loginRed}>Login</h2>
+      <h2 className={styles['login-green']}>Login-green</h2>
       <AlertComponent message={alert.message} severity={alert.severity} open={alert.open} onClose={closeAlert} />
       <form onSubmit={handleSubmit} className={styles.form}>
         <InputComponent label={'email'} type="email" value={email} name="email" onChange={e => setEmail(e.target.value)} />

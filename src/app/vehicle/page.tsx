@@ -1,6 +1,6 @@
 'use client'
-import React, { useState } from 'react';
 import styles from "./page.module.css";
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import InputComponent from '../components/InputComponent';
 import { Button, CircularProgress } from '@mui/material';
@@ -80,7 +80,7 @@ function page() {
 
         try {
             setIsLoading(true)
-            const response = await axiosInstance.post('/vehicle/add', formData)
+            await axiosInstance.post('/vehicle/add', formData)
             showAlert('Vehicle created successfully', 'success')
             resetState()
         } catch (error: any) {
@@ -153,7 +153,7 @@ function page() {
                     </div>
                 )}
 
-                
+
             </div>
         </>
     );
