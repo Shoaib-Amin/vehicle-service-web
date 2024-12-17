@@ -1,14 +1,7 @@
-import { NextConfig } from 'next'
-import path from 'path'
-
-const nextConfig: NextConfig = {
-  webpack(config, { isServer }) {
-    // If necessary, you can create an alias for your src directory
-    if (!isServer) {
-      config.resolve.alias['@'] = path.resolve(__dirname, 'src')
-    }
-    return config
-  },
+// next.config.js
+module.exports = {
+  // reactStrictMode: true,
+  // Set the app folder as the root directory if needed
+  // Add this only if you're using the `/src/app` structure
+  pagesDirectory: './src/app',
 }
-
-export default nextConfig
