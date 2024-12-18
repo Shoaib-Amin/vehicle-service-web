@@ -6,6 +6,7 @@ import { AlertState, Vehicle } from '@/types';
 import { AlertColor } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, CircularProgress, Typography } from '@mui/material';
 import AlertComponent from '@/app/components/AlertComponent';
+import Image from 'next/image';
 
 function VehicleListPage() {
     const [vehicles, setVehicles] = useState<Vehicle[]>([])
@@ -99,10 +100,12 @@ function VehicleListPage() {
                                     <TableCell>{vehicle.phone_number}</TableCell>
                                     <TableCell>{vehicle.price}</TableCell>
                                     <TableCell>
-                                        <img
-                                            src={vehicle.images[0]?.image_url}
-                                            alt={vehicle.images[0]?.image_name}
-                                            style={{ width: 100, height: 60, objectFit: 'cover' }}
+                                        <Image
+                                            src={vehicle.images[0]?.image_url || '/default-image.jpg'}  // Provide a fallback image URL
+                                            alt={vehicle.images[0]?.image_name || 'vehicle image'}
+                                            width={100}
+                                            height={60}
+                                            objectFit="cover" // Keep the aspect ratio intact while covering the area
                                         />
                                     </TableCell>
                                     <TableCell>
