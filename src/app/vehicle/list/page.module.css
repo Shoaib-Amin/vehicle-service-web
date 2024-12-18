@@ -2,4 +2,13 @@
     width: 80%;
     margin: 0 auto;
     margin-top: 100;
+    border: 1px solid red
+}
+
+.test {
+    border: 1px solid green
+}
+
+.test2 {
+    border: 1px solid blue
 }

@@ -68,6 +68,13 @@ function VehicleListPage() {
     }
 
     return (
+        <>
+        <div className={styles.test}>
+                <p>test 1</p>
+        </div>
+        <div className={styles.test2}>
+                <p>test 2</p>
+        </div>
         <div className={styles["vehicle-list-container"]}>
             <AlertComponent message={alert.message} severity={alert.severity} open={alert.open} onClose={closeAlert} />
             <h2>Vehicle List</h2>
@@ -94,18 +101,17 @@ function VehicleListPage() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {vehicles.map((vehicle) => (
+                            {vehicles.length > 0 && vehicles.map((vehicle) => (
                                 <TableRow key={vehicle._id}> {/* Use vehicle._id as key */}
                                     <TableCell>{vehicle.car_model}</TableCell>
                                     <TableCell>{vehicle.phone_number}</TableCell>
                                     <TableCell>{vehicle.price}</TableCell>
                                     <TableCell>
-                                        <Image
-                                            src={vehicle.images[0]?.image_url || '/default-image.jpg'}  // Provide a fallback image URL
+                                        <img
+                                            src={vehicle.images[0]?.image_url || ''}  // Provide a fallback image URL
                                             alt={vehicle.images[0]?.image_name || 'vehicle image'}
                                             width={100}
                                             height={60}
-                                            objectFit="cover" // Keep the aspect ratio intact while covering the area
                                         />
                                     </TableCell>
                                     <TableCell>
@@ -125,6 +131,7 @@ function VehicleListPage() {
                 </TableContainer>
             )}
         </div>
+        </>
     )
 }
 

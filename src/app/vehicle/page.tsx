@@ -13,7 +13,8 @@ function page() {
     const [carModel, setCarModel] = useState<string>("");
     const [price, setPrice] = useState<number | undefined>();
     const [phoneNumber, setPhoneNumber] = useState<string>("");
-    const [images, setImages] = useState<(string | ArrayBuffer | null)[]>([]);
+    const [images, setImages] = useState<File[]>([]);
+    const [previewImages, setPreviewImages] = useState<(string | ArrayBuffer | null)[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [isLoadingLogout, setIsLoadingLogout] = useState<boolean>(false)
     const [alert, setAlert] = useState<AlertState>({
@@ -26,19 +27,39 @@ function page() {
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
         if (files) {
-            const newImages: (string | ArrayBuffer | null)[] = [];
-            Array.from(files).forEach((file) => {
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    const imageUrl = reader.result;
-                    // Check if the image is already in the state
-                    if (!images.includes(imageUrl)) {
-                        newImages.push(imageUrl);
-                        setImages(prevImages => [...prevImages, imageUrl]);
-                    }
-                };
-                reader.readAsDataURL(file);
+            const newImageFiles: File[] = [];
+            const newImagePreviews: (string | ArrayBuffer | null)[] = [];
+
+            // Create an array of promises for reading files
+            const filePromises = Array.from(files).map((file) => {
+                return new Promise<void>((resolve) => {
+                    const reader = new FileReader();
+
+                    reader.onloadend = () => {
+                        const imageUrl = reader.result;  // Data URL for preview
+
+                        newImageFiles.push(file);  // Store the file for submission
+                        newImagePreviews.push(imageUrl);  // Store the preview URL for display
+                        resolve();  // Resolve the promise when the file is read
+                    };
+
+                    reader.readAsDataURL(file);  // Read the file as a Data URL
+                });
             });
+
+            // Wait for all the promises (i.e., files) to finish
+            Promise.all(filePromises)
+                .then(() => {
+                    // Once all files are read, update the state with the arrays
+                    console.log(newImageFiles, 'newImageFiles');
+                    console.log(newImagePreviews, 'newImagePreviews');
+
+                    setImages((prevImages) => [...prevImages, ...newImageFiles]);
+                    setPreviewImages((prevPreviews) => [...prevPreviews, ...newImagePreviews]);
+                })
+                .catch((error) => {
+                    console.error('Error reading files', error);
+                });
         }
     };
 
@@ -114,6 +135,8 @@ function page() {
         setCarModel("")
         setPhoneNumber("")
         setPrice(undefined)
+        setImages([])
+        setPreviewImages([])
     }
 
     return (
@@ -142,18 +165,23 @@ function page() {
                     disabled={!carModel || !price || !phoneNumber || images.length < 1 || images.length > 10 || isLoading}
                     isLoading={isLoading}
                 >Submit</Button>
-                {images.length > 0 && (
-                    <div style={{ display: 'flex', flexWrap: 'wrap' }} className={styles['images-container ']}>
-                        {images.map((image, index) => (
-                            <div key={index} className={styles["image-container"]}>
-                                <img src={image as string} alt={`Preview ${index}`} className={styles["preview-image"]} />
-                                <div className={styles["remove-icon"]} onClick={() => handleRemoveImage(index)}>
-                                    ✖
-                                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap' }} className={styles['images-container ']}>
+                    {previewImages.map((image, index) => (
+                        <div key={index} className={styles["image-container"]}>
+                            <img
+                                src={image as string}
+                                alt={`Preview ${index}`}
+                                className={styles["preview-image"]}
+                            />
+                            <div
+                                className={styles["remove-icon"]}
+                                onClick={() => handleRemoveImage(index)}
+                            >
+                                ✖
                             </div>
-                        ))}
-                    </div>
-                )}
+                        </div>
+                    ))}
+                </div>
 
 
             </div>
