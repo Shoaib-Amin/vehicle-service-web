@@ -67,7 +67,7 @@ function VehicleListPage() {
     }
 
     return (
-        <div className={styles.container}>
+        <div className={styles["vehicle-list-container"]}>
             <AlertComponent message={alert.message} severity={alert.severity} open={alert.open} onClose={closeAlert} />
             <h2>Vehicle List</h2>
 

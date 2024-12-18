@@ -8,17 +8,18 @@
   border: 1px solid lightgray;
   padding: 10px;
   border-radius: 5px;
+  margin-top: 20;
 }
 
 .container {
   display: flex;
   align-items: center;
   height: 100vh;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.loginRed{
-  color: red;
-}
-.login-green {
-  color: green
+.loginText{
+  color: #3399FF;
+
 }

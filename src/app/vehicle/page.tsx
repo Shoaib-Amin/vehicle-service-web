@@ -2,13 +2,11 @@
 import styles from "./page.module.css";
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import InputComponent from '../components/InputComponent';
-import { Button, CircularProgress } from '@mui/material';
 import { AlertColor } from '@mui/material/Alert';
 import axiosInstance from '@/utils/axios';
-import AlertComponent from '../components/AlertComponent';
 import Link from 'next/link';
 import { AlertState } from '@/types';
+import { Input, Button, Alert } from "../components";
 
 function page() {
     const router = useRouter();
@@ -17,6 +15,7 @@ function page() {
     const [phoneNumber, setPhoneNumber] = useState<string>("");
     const [images, setImages] = useState<(string | ArrayBuffer | null)[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [isLoadingLogout, setIsLoadingLogout] = useState<boolean>(false)
     const [alert, setAlert] = useState<AlertState>({
         message: "",
         open: false,
@@ -49,6 +48,7 @@ function page() {
     };
 
     const handleLogout = async () => {
+        setIsLoadingLogout(true)
         try {
             const response = await fetch('/api/logout', {
                 method: 'POST',
@@ -62,6 +62,8 @@ function page() {
             }
         } catch (error) {
             console.error('Error logging out:', error);
+        } finally {
+            setIsLoadingLogout(false)
         }
     };
 
@@ -118,17 +120,17 @@ function page() {
         <>
             <div className={styles['layout-container']}>
                 <Link href="/vehicle/list">See list</Link>
-                <Button variant="contained" onClick={handleLogout}>Logout</Button>
+                <Button variant="contained" onClick={handleLogout} isLoading={isLoadingLogout} disabled={isLoadingLogout}>Logout</Button>
             </div>
-            <AlertComponent message={alert.message} severity={alert.severity} open={alert.open} onClose={closeAlert} />
+            <Alert message={alert.message} severity={alert.severity} open={alert.open} onClose={closeAlert} />
 
             <div className={styles.container}>
 
                 {/* <Snackbar message='Only 10 pic' open={images.length > 10} autoHideDuration={2000}/> */}
                 <h2>Car Information</h2>
-                <InputComponent label={'Model'} type="text" value={carModel} name="carModel" onChange={e => setCarModel(e.target.value)} />
-                <InputComponent label={'Price'} type="number" value={price} name="price" onChange={e => setPrice(parseInt(e.target.value))} />
-                <InputComponent label={'Phone'} type="number" value={phoneNumber} name="phoneNumber" onChange={e => setPhoneNumber(e.target.value)} />
+                <Input label={'Model'} type="text" value={carModel} name="carModel" onChange={e => setCarModel(e.target.value)} />
+                <Input label={'Price'} type="number" value={price} name="price" onChange={e => setPrice(parseInt(e.target.value))} />
+                <Input label={'Phone'} type="number" value={phoneNumber} name="phoneNumber" onChange={e => setPhoneNumber(e.target.value)} />
 
                 <div>
                     <label>Upload Photos</label>
@@ -138,7 +140,7 @@ function page() {
                     variant="contained"
                     onClick={handlePostRequest}
                     disabled={!carModel || !price || !phoneNumber || images.length < 1 || images.length > 10 || isLoading}
-                    startIcon={isLoading ? <CircularProgress size={24} color="inherit" /> : null}
+                    isLoading={isLoading}
                 >Submit</Button>
                 {images.length > 0 && (
                     <div style={{ display: 'flex', flexWrap: 'wrap' }} className={styles['images-container ']}>

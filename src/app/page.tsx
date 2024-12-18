@@ -1,10 +1,9 @@
 'use client'
 import styles from "./page.module.css";
 import React, { FormEvent, useState } from 'react';
-import InputComponent from "./components/InputComponent";
-import { AlertColor, Button, CircularProgress } from "@mui/material";
+import { AlertColor } from "@mui/material";
 import { AlertState } from "@/types";
-import AlertComponent from "./components/AlertComponent";
+import { Alert, Button, Input } from "./components";
 
 export default function Home() {
   const [email, setEmail] = useState<string>("")
@@ -71,19 +70,16 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.loginRed}>Login</h2>
-      <h2 className={styles['login-green']}>Login-green</h2>
-      <AlertComponent message={alert.message} severity={alert.severity} open={alert.open} onClose={closeAlert} />
+      <Alert message={alert.message} severity={alert.severity} open={alert.open} onClose={closeAlert} />
+      <h2 className={styles.loginText}>Login</h2>
       <form onSubmit={handleSubmit} className={styles.form}>
-        <InputComponent label={'email'} type="email" value={email} name="email" onChange={e => setEmail(e.target.value)} />
-        <InputComponent label={'password'} type="password" value={password} name="password" onChange={e => setPassword(e.target.value)} />
+        <Input label={'email'} type="email" value={email} name="email" onChange={e => setEmail(e.target.value)} />
+        <Input label={'password'} type="password" value={password} name="password" onChange={e => setPassword(e.target.value)} />
         <Button
           variant="contained"
           type="submit"
-          fullWidth
           disabled={!email || !password || isLoading}
-          startIcon={isLoading ? <CircularProgress size={24} color="inherit" /> : null}
-
+          isLoading={isLoading}
         >Login</Button>
       </form>
     </div>

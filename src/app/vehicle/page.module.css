@@ -3,7 +3,8 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 10;
+    height: 400;
+    justify-content: space-between;
 }
 
 .layout-container {
@@ -42,9 +43,6 @@
     font-size: 14px;
     opacity: 0;
     transition: opacity 0.3s ease;
-}
-
-.images-container {
 }
 
 .image-container:hover .remove-icon {
